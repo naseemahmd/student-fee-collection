@@ -1,4 +1,4 @@
-import { Tuition } from 'src/tuition/tutition.entity';
+import { Tuition } from '../tuition/tutition.entity';
 import {
   Entity,
   Column,
