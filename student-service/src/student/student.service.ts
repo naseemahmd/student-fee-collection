@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { TuitionService } from 'src/tuition/tuition.service';
+import { TuitionService } from '../tuition/tuition.service';
 import { Repository } from 'typeorm';
 import { Student } from './student.entity';
 import { PinoLogger } from 'nestjs-pino';
