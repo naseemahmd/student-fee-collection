@@ -1,4 +1,4 @@
-import { Tuition } from './tuitionDto';
+import { TuitionDto } from './tuitionDto';
 
 export class Student {
   id: string;
@@ -14,7 +14,7 @@ export class Student {
 
   isActive: boolean;
 
-  tuitions: Tuition[];
+  tuitions: TuitionDto[];
 
   created_at: Date;
 
