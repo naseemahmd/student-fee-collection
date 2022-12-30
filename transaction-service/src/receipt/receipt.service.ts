@@ -1,5 +1,9 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadGatewayException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { firstValueFrom } from 'rxjs';
 import { Tuition } from '../transaction/dto/tuition';
@@ -26,12 +30,16 @@ export class ReceiptService {
   async getReceipts() {
     this._logger.info(`getReceipts is called`);
     try {
-      const receipts = await this.receiptRepository.find();
+      const receipts = await this.receiptRepository.find({
+        order: { created_at: 'ASC' },
+      });
       this._logger.info(`Receipt Fetched Sucuss`);
       return receipts;
     } catch (error) {
       this._logger.info(`Receipt Fetched Error with ${error}`);
-      return new Error('We Have Issue on Fetching! Please Try Again');
+      return new BadGatewayException(
+        'We Have Issue on Fetching! Please Try Again',
+      );
     }
   }
 
@@ -101,7 +109,9 @@ export class ReceiptService {
       }
     } catch (error) {
       this._logger.info(`Receipt Fetched Error with ${error}`);
-      return new Error('We Have Issue on Fetching! Please Try Again');
+      return new BadGatewayException(
+        'We Have Issue on Fetching! Please Try Again',
+      );
     }
   }
   async createReceipt(receipt: Receipt): Promise<Receipt | Error> {
@@ -110,7 +120,7 @@ export class ReceiptService {
       return { ...createReceipt };
     } catch (error) {
       this._logger.info(`Receipt create Error with ${error}`);
-      return new Error('We Have Issue on create Receipts');
+      return new BadGatewayException('We Have Issue on create Receipts');
     }
   }
   async updateReceipt(id: string, receipt: Receipt): Promise<Receipt | Error> {
@@ -131,7 +141,7 @@ export class ReceiptService {
       return { ...updatedReceipt };
     } catch (error) {
       this._logger.info(`Receipt update Error with ${error}`);
-      return new Error('We Have Issue on update Receipts');
+      return new BadGatewayException('We Have Issue on update Receipts');
     }
   }
   async deleteReceipt(id: any) {
@@ -143,7 +153,7 @@ export class ReceiptService {
       return { ...deleteReceipt };
     } catch (error) {
       this._logger.info(`Receipt delete Error with ${error}`);
-      return new Error('We Have Issue on delete Receipts');
+      return new BadGatewayException('We Have Issue on delete Receipts');
     }
   }
   async findOneByTranID(transactionID: string) {
@@ -161,7 +171,7 @@ export class ReceiptService {
       return receipt;
     } catch (error) {
       this._logger.info(`Receipt Fetched Error with ${error}`);
-      return new Error('We Have Issue on finding transactions');
+      return new BadGatewayException('We Have Issue on finding transactions');
     }
   }
 }

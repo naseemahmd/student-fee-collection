@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadGatewayException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Tuition } from './tutition.entity';
@@ -22,7 +26,9 @@ export class TuitionService {
       return tuitions;
     } catch (error) {
       this._logger.info(`getTuitions is error with ${error}`);
-      return new Error('Issue on geting tuition! Please Try Again');
+      return new BadGatewayException(
+        'Issue on geting tuition! Please Try Again',
+      );
     }
   }
   //FIND One Tuitions
@@ -34,7 +40,7 @@ export class TuitionService {
       return { ...tuition };
     } catch (error) {
       this._logger.info(`findOne Tuition is error with ${error}`);
-      return new Error('Issue on fetching Tuition');
+      return new BadGatewayException('Issue on fetching Tuition');
     }
   }
 
@@ -51,7 +57,7 @@ export class TuitionService {
       this._logger.info(
         `findOne tuition with ${tuitionID} is error with ${error}`,
       );
-      return new Error('Issue on fetching Tuition');
+      return new BadGatewayException('Issue on fetching Tuition');
     }
   }
 
@@ -64,7 +70,9 @@ export class TuitionService {
       return { ...createdTuition };
     } catch (error) {
       this._logger.info(`createTuition is called is error with ${error}`);
-      return new Error('Issue on create tuition! Please Try Again');
+      return new BadGatewayException(
+        'Issue on create tuition! Please Try Again',
+      );
     }
   }
 
@@ -86,7 +94,9 @@ export class TuitionService {
       return { ...editedTuition };
     } catch (error) {
       this._logger.info(`updateTuition is called is error with ${error}`);
-      return new Error('Issue on update tuition! Please Try Again');
+      return new BadGatewayException(
+        'Issue on update tuition! Please Try Again',
+      );
     }
   }
 
@@ -101,7 +111,7 @@ export class TuitionService {
       this._logger.info(
         `Remove Tuition is called for ${id} error with ${error}`,
       );
-      return new Error('Error on Tuition Removed');
+      return new BadGatewayException('Error on Tuition Removed');
     }
   }
 }
