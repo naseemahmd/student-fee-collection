@@ -13,7 +13,7 @@ async function bootstrap() {
     transport: Transport.KAFKA,
     options: {
       client: {
-        brokers: [''],
+        brokers: ['localhost:9092'],
       },
       createTopics: true,
       consumer: {

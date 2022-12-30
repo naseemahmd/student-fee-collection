@@ -20,7 +20,7 @@ import { LoggerModule } from 'nestjs-pino';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: '123456',
+      password: 'Nasm1900',
       database: 'student-fee-management',
       entities: [Student, Tuition],
       synchronize: true,

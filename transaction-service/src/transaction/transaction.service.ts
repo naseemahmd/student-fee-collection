@@ -1,5 +1,9 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadGatewayException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { firstValueFrom } from 'rxjs';
 import { Student } from '../receipt/dto/studentDto';
@@ -32,7 +36,9 @@ export class TransactionService {
       return transactions;
     } catch (error) {
       this._logger.info(`transaction fetched error with ${error}`);
-      return new Error('We Have Issue on Fetching! Please Try Again');
+      return new BadGatewayException(
+        'We Have Issue on Fetching! Please Try Again',
+      );
     }
   }
 
@@ -51,7 +57,9 @@ export class TransactionService {
       return { ...transactions };
     } catch (error) {
       this._logger.info(`transaction fetched error with ${error}`);
-      return new Error('We Have Issue on Fetching! Please Try Again');
+      return new BadGatewayException(
+        'We Have Issue on Fetching! Please Try Again',
+      );
     }
   }
 
@@ -67,7 +75,9 @@ export class TransactionService {
       return { ...transaction };
     } catch (error) {
       this._logger.info(`transaction fetched error with ${error}`);
-      return new Error('We Have Issue on Fetching! Please Try Again');
+      return new BadGatewayException(
+        'We Have Issue on Fetching! Please Try Again',
+      );
     }
   }
 
@@ -102,7 +112,9 @@ export class TransactionService {
       return { ...studetFee };
     } catch (error) {
       this._logger.info(`transaction fetched error with ${error}`);
-      return new Error('We Have Issue on Fetching! Please Try Again');
+      return new BadGatewayException(
+        'We Have Issue on Fetching! Please Try Again',
+      );
     }
   }
 
@@ -114,14 +126,23 @@ export class TransactionService {
 
     try {
       let TransactionID = '';
-      const lastTransaction = await this.transactionRepository.find();
+      const lastTransaction = await this.transactionRepository.find({
+        order: { created_at: 'ASC' },
+      });
+      console.log(lastTransaction.length, '==');
       if (lastTransaction.length > 0) {
         const lastTransactionID =
           lastTransaction[lastTransaction.length - 1].transactionID;
+        console.log(
+          lastTransactionID,
+          '==',
+          lastTransaction[lastTransaction.length - 1],
+        );
 
         TransactionID = `${lastTransactionID.split(':')[0]}:${
           Number(lastTransactionID.split(':')[1]) + 1
         }`;
+        console.log(TransactionID, '0=-0');
       } else {
         TransactionID = 'Trans:1001';
       }
@@ -156,12 +177,12 @@ export class TransactionService {
         this._logger.info(
           `Create Transaction have issue with Create Receipt ${error} and ${TransactionID} is deleted`,
         );
-        return new Error('We Have Issue on creating Transaction');
+        return new BadGatewayException('We Have Issue on creating Transaction');
       }
       return { ...createdTransaction };
     } catch (error) {
       this._logger.info(`Create Transaction have issue ${error} `);
-      return new Error('We Have Issue on creating Transaction');
+      return new BadGatewayException('We Have Issue on creating Transaction');
     }
   }
 
@@ -188,7 +209,7 @@ export class TransactionService {
       return { ...updatedTransaction };
     } catch (error) {
       this._logger.info(`Transaction Updated issue with ${error} for ${id}`);
-      return new Error('We Have Issue on updating Transaction');
+      return new BadGatewayException('We Have Issue on updating Transaction');
     }
   }
   async deleteFee(id: string) {
@@ -212,7 +233,7 @@ export class TransactionService {
 
       return 'Fee Returned Succuss';
     } catch (error) {
-      return new Error('We Have Issue on Deleting Transaction');
+      return new BadGatewayException('We Have Issue on Deleting Transaction');
     }
   }
 }

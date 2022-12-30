@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadGatewayException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TuitionService } from '../tuition/tuition.service';
 import { Repository } from 'typeorm';
@@ -22,7 +26,7 @@ export class StudentService {
       return await this.studentRepository.find();
     } catch (error) {
       this._logger.info(`getTransactions is error with ${error}`);
-      return new Error('Issue on fetching Student');
+      return new BadGatewayException('Issue on fetching Student');
     }
   }
 
@@ -45,7 +49,7 @@ export class StudentService {
       this._logger.info(
         `getStudent with tuition for ${id} error with ${error}`,
       );
-      return new Error('Issue on fetching Student');
+      return new BadGatewayException('Issue on fetching Student');
     }
   }
 
@@ -70,7 +74,7 @@ export class StudentService {
       this._logger.info(
         `getStudent with tuition for ${studentID} error with ${error}`,
       );
-      return new Error('Issue on fetching Student');
+      return new BadGatewayException('Issue on fetching Student');
     }
   }
 
@@ -84,7 +88,7 @@ export class StudentService {
       return { ...respoonse };
     } catch (error) {
       this._logger.info(`getStudent is called for ${id} error with ${id}`);
-      return new Error('Issue on fetching Student');
+      return new BadGatewayException('Issue on fetching Student');
     }
   }
 
@@ -94,8 +98,11 @@ export class StudentService {
       `registerStudent is called with ${JSON.stringify(student)}`,
     );
     try {
-      const lastNo: Student[] = await this.studentRepository.findBy({
-        grade: student.grade,
+      const lastNo: Student[] = await this.studentRepository.find({
+        where: {
+          grade: student.grade,
+        },
+        order: { created_at: 'ASC' },
       });
       let studentID = '';
       if (lastNo.length > 0) {
@@ -114,7 +121,7 @@ export class StudentService {
       return { ...registeredStudent };
     } catch (error) {
       this._logger.info(`registerStudent is error with ${error}`);
-      return new Error('Issue on Registering the Student');
+      return new BadGatewayException('Issue on Registering the Student');
     }
   }
 
@@ -135,7 +142,7 @@ export class StudentService {
       return { ...editedStudent };
     } catch (error) {
       this._logger.info(`updateStudet is called error with ${error}`);
-      return new Error('Failed to Upadate Student');
+      return new BadGatewayException('Failed to Upadate Student');
     }
   }
 
@@ -162,7 +169,7 @@ export class StudentService {
       this._logger.info(
         `asignTuition is called for ${id} with ${tuitionID} is error with ${error}`,
       );
-      return new Error('Failed to Assign Tuiton');
+      return new BadGatewayException('Failed to Assign Tuiton');
     }
   }
 
@@ -177,7 +184,7 @@ export class StudentService {
       this._logger.info(
         `unResigerStudent is called for ${id} error with ${error}`,
       );
-      return new Error('Failed to Assign Tuiton');
+      return new BadGatewayException('Failed to Assign Tuiton');
     }
   }
 }

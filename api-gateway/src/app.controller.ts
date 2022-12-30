@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   Param,
   Post,
   Query,
@@ -34,6 +35,7 @@ export class AppController {
     description: 'The list of Students',
     type: [Student],
   })
+  @ApiResponse({ status: 503, description: 'Bad Gatway.' })
   @Get('getStudents')
   getAllStudents() {
     return this.studentService.getAllStudents();
@@ -45,6 +47,8 @@ export class AppController {
     description: 'The one student with id',
     type: Student,
   })
+  @ApiResponse({ status: 503, description: 'Bad Gatway.' })
+  @ApiResponse({ status: 404, description: 'Student Not Found' })
   @Get('getOneStudent/:id')
   findOne(@Param('id') id: string) {
     return this.studentService.getOneStudent(id);
@@ -56,6 +60,8 @@ export class AppController {
     description: 'The one student with tuitions id',
     type: StudentWithTuition,
   })
+  @ApiResponse({ status: 503, description: 'Bad Gatway.' })
+  @ApiResponse({ status: 404, description: 'Student Not Found' })
   @Get('getOneStudentWithTuition/:id')
   getOneStudentWithTuition(@Param('id') id: string) {
     return this.studentService.getOneStudentWithTuition(id);
@@ -67,6 +73,8 @@ export class AppController {
     description: 'The one student with tuitions StudentID',
     type: StudentWithTuition,
   })
+  @ApiResponse({ status: 503, description: 'Bad Gatway.' })
+  @ApiResponse({ status: 404, description: 'Student Not Found' })
   @Get('getStudentWithStudentID/:studentID')
   getStudentWithStudentID(@Param('studentID') studentID: string) {
     return this.studentService.getStudentWithStudentID(studentID);
@@ -90,7 +98,7 @@ export class AppController {
     description: 'The student has been successfully updated.',
     type: Student,
   })
-  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @ApiResponse({ status: 503, description: 'Bad Gatway.' })
   @ApiResponse({ status: 404, description: 'Student Not Found' })
   @Post('upadteStudent/:id')
   upadteStudent(
@@ -107,6 +115,7 @@ export class AppController {
     type: StudentWithTuition,
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @ApiResponse({ status: 503, description: 'Bad Gatway.' })
   @ApiResponse({ status: 404, description: 'Student Not Found' })
   @Post('assignTuition/:id')
   assignTuition(
@@ -121,6 +130,7 @@ export class AppController {
     status: 201,
     description: 'The student has been successfully deleted.',
   })
+  @ApiResponse({ status: 503, description: 'Bad Gatway.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @ApiResponse({ status: 404, description: 'Student Not Found' })
   @Delete('deleteStudent/:id')
@@ -134,6 +144,7 @@ export class AppController {
     description: 'The list of Tuition',
     type: [Tuition],
   })
+  @ApiResponse({ status: 503, description: 'Bad Gatway.' })
   @Get('getTuitions')
   getTuitions(): Observable<Tuition[]> {
     return this.studentService.getTuitions();
@@ -145,6 +156,8 @@ export class AppController {
     description: 'The Tuition with ID',
     type: Tuition,
   })
+  @ApiResponse({ status: 404, description: 'Tuition Not Found' })
+  @ApiResponse({ status: 503, description: 'Bad Gatway.' })
   @Get('getOneTuition/:id')
   getOneTuition(@Param('id') id: string): Observable<Tuition> {
     return this.studentService.getOneTuition(id);
@@ -156,8 +169,11 @@ export class AppController {
     description: 'The tuiton has been successfully created.',
     type: Tuition,
   })
+  @ApiResponse({ status: 503, description: 'Bad Gatway.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Post('createTuition')
+  @HttpCode(502)
+  @HttpCode(201)
   createTuition(@Body() tuition: TuitionDto): Observable<Tuition> {
     return this.studentService.createTuition(tuition);
   }
@@ -168,6 +184,7 @@ export class AppController {
     description: 'The tuiton has been successfully updated.',
     type: Tuition,
   })
+  @ApiResponse({ status: 503, description: 'Bad Gatway.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @ApiResponse({ status: 404, description: 'Tuition Not Found' })
   @Post('updateTuition/:id')
@@ -183,6 +200,7 @@ export class AppController {
     status: 201,
     description: 'The tuiton has been successfully updated.',
   })
+  @ApiResponse({ status: 503, description: 'Bad Gatway.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @ApiResponse({ status: 404, description: 'Tuition Not Found' })
   @Delete('deleteTuition/:id')
@@ -196,7 +214,9 @@ export class AppController {
     description: 'The Fee deatils of Student',
     type: GetFee,
   })
+  @ApiResponse({ status: 503, description: 'Bad Gatway.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @ApiResponse({ status: 404, description: 'Student Not Found' })
   @Get('getFee/:studentID')
   getFee(@Param('studentID') studentID: string): Observable<GetFee> {
     return this.transactionService.getFee(studentID);
@@ -213,7 +233,9 @@ export class AppController {
     description: 'The Receipt for a Student for Transaction',
     type: ReceiptDTO,
   })
+  @ApiResponse({ status: 503, description: 'Bad Gatway.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @ApiResponse({ status: 404, description: 'Recipt Not Found' })
   @Get('getReceipt/:transactionID')
   getOneReceipt(
     @Param('transactionID') transactionID: string,
@@ -227,6 +249,7 @@ export class AppController {
     description: 'The List of Trasaction/Fee',
     type: [Transaction],
   })
+  @ApiResponse({ status: 503, description: 'Bad Gatway.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Get('getTransactions')
   getTransactions(): Observable<Transaction[]> {
@@ -239,7 +262,9 @@ export class AppController {
     description: 'The One of Trasaction/Fee',
     type: Transaction,
   })
+  @ApiResponse({ status: 503, description: 'Bad Gatway.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @ApiResponse({ status: 404, description: 'Transaction Not Found' })
   @Get('getOneTransaction/:id')
   getOneTransaction(@Param('id') id: string): Observable<Transaction> {
     return this.transactionService.getOneTransaction(id);
@@ -251,7 +276,9 @@ export class AppController {
     description: 'Collete Fee / Create Transaction is Sucuss',
     type: Transaction,
   })
+  @ApiResponse({ status: 503, description: 'Bad Gatway.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @ApiResponse({ status: 404, description: 'Transaction Not Found' })
   @Post('collectFee')
   createTransaction(
     @Body() transaction: TransactionDto,
@@ -265,6 +292,7 @@ export class AppController {
     description: 'Update Fee / Update Transaction is Sucuss',
     type: Transaction,
   })
+  @ApiResponse({ status: 503, description: 'Bad Gatway.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @ApiResponse({ status: 404, description: 'Transaction Not Found' })
   @Post('updateFee/:id')
@@ -280,6 +308,7 @@ export class AppController {
     status: 201,
     description: 'Delete Fee / Delete Transaction is Sucuss',
   })
+  @ApiResponse({ status: 503, description: 'Bad Gatway.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @ApiResponse({ status: 404, description: 'Transaction Not Found' })
   @Delete('returnFee/:id')
