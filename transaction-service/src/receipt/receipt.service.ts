@@ -121,13 +121,13 @@ export class ReceiptService {
       });
 
       if (!editReceipt) {
-        this._logger.info(`Tuition is not found for ${id}`);
+        this._logger.info(`Recipt is not found for ${id}`);
 
-        return new NotFoundException('Tuition is not found');
+        return new NotFoundException('Recipt is not found');
       }
       await this.receiptRepository.update(id, receipt);
       const updatedReceipt = this.receiptRepository.findOneBy({ id: id });
-      this._logger.info(`Tuition update Sucuss`);
+      this._logger.info(`Recipt update Sucuss`);
       return { ...updatedReceipt };
     } catch (error) {
       this._logger.info(`Receipt update Error with ${error}`);
@@ -152,6 +152,11 @@ export class ReceiptService {
       const receipt = await this.receiptRepository.findOneBy({
         transactionID: transactionID,
       });
+      if (!receipt) {
+        this._logger.info(`Receipt is not found for ${transactionID}`);
+
+        return new NotFoundException('Receipt is not found');
+      }
       this._logger.info(`findOneByTranID is feteched Sucuss`);
       return receipt;
     } catch (error) {

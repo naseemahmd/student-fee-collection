@@ -1,4 +1,4 @@
-export class Tuition {
+export class TuitionDto {
   id: string;
 
   tuitionName: string;

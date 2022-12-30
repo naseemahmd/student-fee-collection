@@ -51,7 +51,7 @@ export class TransactionService {
       return { ...transactions };
     } catch (error) {
       this._logger.info(`transaction fetched error with ${error}`);
-      return new Error('Failed to Assign Tuiton');
+      return new Error('We Have Issue on Fetching! Please Try Again');
     }
   }
 
@@ -67,7 +67,7 @@ export class TransactionService {
       return { ...transaction };
     } catch (error) {
       this._logger.info(`transaction fetched error with ${error}`);
-      return new Error('Failed to Assign Tuiton');
+      return new Error('We Have Issue on Fetching! Please Try Again');
     }
   }
 

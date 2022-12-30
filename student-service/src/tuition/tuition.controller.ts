@@ -36,7 +36,7 @@ export class TuitionController {
 
   @MessagePattern('updateTuition')
   @Patch('update:id')
-  async editTuition(@Body() body: any) {
+  async editTuitionId(@Body() body: any) {
     return await this.tuitionService.editTuition(body.id, body.tuition);
   }
 

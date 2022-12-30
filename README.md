@@ -12,11 +12,17 @@ There have 4 Database Table
 3. Transaction - Fee
 4. Recipt 
 
+    1. Create Students 
+    2. Create Tuitions
+    3. Assign Tuition for students
+    4. Create Transaction it will create Receipt data automatically
+    5. Get Receipt will gives the data wich to show on Recipt
 
 # Used Technologies and Lanuages
 TypeScript
 MicroServices
 Kafka
+Jest for Testing
 
 # DB Dum Link 
 https://drive.google.com/drive/folders/12Hd2LhZ6y4BgDCVc0VRz9FlATWLS0BY2?usp=share_link 
@@ -49,5 +55,15 @@ If you want you can Dum the DB with my tested Data.
 8. for Swagger http://localhost:3000/api you can find the documentaion.
 
 9. for Postman Json https://drive.google.com/drive/folders/12Hd2LhZ6y4BgDCVc0VRz9FlATWLS0BY2?usp=share_link 
+
+# Unit Testing
+
+Student Service and Transaction Service, controller and services Covered with 80% of Unit Test Coverage
+
+To Run Test cases
+
+1. in Each services terminal run 'npm test:watch'
+
+2. To check the coverage run 'npm run test:cov' and To See the Coverage on brower in each service folder there have folder with name of 'coverage' and in that there will be folder call lcov-report inside there have a index.html open that.
 
 
